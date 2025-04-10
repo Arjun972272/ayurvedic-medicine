@@ -3,106 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Order Ayurvedic Medicine</title>
+  <title>Order Now - Man Booster</title>
   <style>
     body {
-      font-family: Arial;
-      padding: 20px;
-      background: #f4f4f4;
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      text-align: center;
     }
-    form, .thank-you {
-      background: white;
+    .container {
+      padding: 30px;
+    }
+    #orderForm {
+      display: none;
+      background: #fff;
       padding: 20px;
-      max-width: 500px;
+      max-width: 400px;
       margin: auto;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    input, textarea, select {
+    input, textarea {
       width: 100%;
       padding: 10px;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
+      margin: 10px 0;
       border-radius: 5px;
+      border: 1px solid #ccc;
     }
     button {
       background-color: green;
       color: white;
-      padding: 10px;
+      padding: 10px 20px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
     }
-    button:hover {
-      background-color: darkgreen;
-    }
-    h2 {
-      text-align: center;
-    }
-    .thank-you {
-      display: none;
-      text-align: center;
-    }
-    .thank-you h1 {
+    .success {
       color: green;
+      margin-top: 20px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-
-  <div id="form-container">
-    <h2>Place Your Order</h2>
-    <form id="orderForm">
+  <div class="container">
+    <h1>Man Booster</h1>
+    <p>शरीर की कमजोरी को जड़ से खत्म करें। आयुर्वेदिक इलाज - बिना किसी साइड इफेक्ट के।</p>
+    <button onclick="document.getElementById('orderForm').style.display='block'">Cash on Delivery</button>
+    
+    <form id="orderForm" action="https://formsubmit.co/arjundiwaker0@gmail.com" method="POST">
+      <h2>Place Your Order</h2>
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="tel" name="phone" placeholder="Phone Number" required />
+      <input type="text" name="address" placeholder="Full Address" required />
+      <input type="hidden" name="_subject" value="New Order from Man Booster Website" />
       <input type="hidden" name="_captcha" value="false">
-      <label for="name">Full Name</label>
-      <input type="text" name="Name" required>
-
-      <label for="phone">Phone Number</label>
-      <input type="tel" name="Phone" required>
-
-      <label for="address">Full Address</label>
-      <textarea name="Address" rows="3" required></textarea>
-
-      <label for="product">Select Product</label>
-      <select name="Product">
-        <option value="Jawan Power Booster">Jawan Power Booster</option>
-        <option value="Ayurvedic Medicine">Ayurvedic Medicine</option>
-      </select>
-
-      <label for="payment">Payment Method</label>
-      <select name="Payment Method">
-        <option value="Cash on Delivery">Cash on Delivery</option>
-      </select>
-
-      <button type="submit">Book Order</button>
+      <input type="hidden" name="_next" value="https://yourwebsite.com/thankyou.html" />
+      <button type="submit">Place Order</button>
     </form>
   </div>
-
-  <div class="thank-you" id="thankYou">
-    <h1>Thank You!</h1>
-    <p>Your order has been placed successfully. We'll contact you soon.</p>
-  </div>
-
-  <script>
-    const form = document.getElementById('orderForm');
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      const formData = new FormData(form);
-
-      fetch("https://formsubmit.co/ajax/arjundiwaker0@gmail.com", {
-        method: "POST",
-        body: formData
-      }).then(response => response.json())
-        .then(data => {
-          document.getElementById('form-container').style.display = "none";
-          document.getElementById('thankYou').style.display = "block";
-        }).catch(error => {
-          alert("Something went wrong. Please try again.");
-        });
-    });
-  </script>
-
 </body>
 </html>
