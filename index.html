@@ -1,10 +1,96 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Ayurvedic Medicine</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jawan Power Booster</title>
+  <style>
+    body { font-family: sans-serif; background-color: #f3f3f3; margin: 0; padding: 0; }
+    header { background-color: #006400; color: white; padding: 20px; text-align: center; }
+    .product {
+      background-color: white;
+      margin: 40px auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .product img { width: 100%; border-radius: 8px; }
+    .info { margin-top: 20px; }
+    .price { color: #b12704; font-size: 1.5em; margin: 10px 0; }
+    .btns button {
+      margin-top: 10px;
+      padding: 12px;
+      width: 100%;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .cash { background-color: #444; color: white; }
+    #form-section {
+      display: none;
+      margin-top: 20px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome to Ayurvedic Medicine Store</h1>
-  <p>We offer natural solutions for men's health.</p>
+  <header>
+    <h1>Jawan Power Booster</h1>
+    <p>3 महीने का पैक - ₹1499</p>
+  </header>
+
+  <div class="product">
+    <img src="https://via.placeholder.com/600x400?text=Jawan+Power+Booster" alt="Jawan Power">
+    <div class="info">
+      <p>यह एक आयुर्वेदिक दवा है जो पुरुषों की शक्ति और सहनशक्ति को बढ़ाने में सहायक है।</p>
+      <p class="price">₹1499 / 3 Months Pack</p>
+    </div>
+    <div class="btns">
+      <button class="cash" onclick="showForm()">Cash on Delivery</button>
+    </div>
+
+    <div id="form-section">
+      <h3>Delivery Details</h3>
+      <input type="text" id="name" placeholder="Name" required />
+      <input type="tel" id="phone" placeholder="Phone Number" required />
+      <textarea id="address" placeholder="Full Address" rows="4" required></textarea>
+      <button onclick="sendWhatsApp()">Submit Order</button>
+    </div>
+  </div>
+
+  <script>
+    function showForm() {
+      document.getElementById('form-section').style.display = 'block';
+    }
+
+    function sendWhatsApp() {
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      const address = document.getElementById("address").value;
+
+      if (name && phone && address) {
+        const message = `New COD Order:%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}`;
+        const whatsappURL = `https://wa.me/919720944308?text=${message}`;
+        window.open(whatsappURL, '_blank');
+      } else {
+        alert("Please fill all fields.");
+      }
+    }
+  </script>
 </body>
 </html>
