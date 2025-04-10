@@ -1,78 +1,108 @@
-from zipfile import ZipFile
-import os
-
-# Create the HTML files content
-order_form_html = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Order Ayurvedic Medicine</title>
   <style>
-    body { font-family: Arial; padding: 20px; background: #f4f4f4; }
-    form { background: white; padding: 20px; max-width: 500px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    input, textarea, select { width: 100%; padding: 10px; margin: 10px 0; }
-    button { background-color: green; color: white; padding: 10px; border: none; cursor: pointer; width: 100%; }
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background: #f4f4f4;
+    }
+    form, .thank-you {
+      background: white;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: green;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: darkgreen;
+    }
+    h2 {
+      text-align: center;
+    }
+    .thank-you {
+      display: none;
+      text-align: center;
+    }
+    .thank-you h1 {
+      color: green;
+    }
   </style>
 </head>
 <body>
 
-<h2 style="text-align:center;">Place Your Order</h2>
+  <div id="form-container">
+    <h2>Place Your Order</h2>
+    <form id="orderForm">
+      <input type="hidden" name="_captcha" value="false">
+      <label for="name">Full Name</label>
+      <input type="text" name="Name" required>
 
-<form action="https://formsubmit.co/9720944308@gmail.com" method="POST">
-  <input type="hidden" name="_captcha" value="false">
-  <input type="hidden" name="_next" value="thankyou.html">
-  
-  <label>Customer Name:</label>
-  <input type="text" name="name" required>
+      <label for="phone">Phone Number</label>
+      <input type="tel" name="Phone" required>
 
-  <label>Mobile Number:</label>
-  <input type="tel" name="mobile" required>
+      <label for="address">Full Address</label>
+      <textarea name="Address" rows="3" required></textarea>
 
-  <label>Address:</label>
-  <textarea name="address" required></textarea>
+      <label for="product">Select Product</label>
+      <select name="Product">
+        <option value="Jawan Power Booster">Jawan Power Booster</option>
+        <option value="Ayurvedic Medicine">Ayurvedic Medicine</option>
+      </select>
 
-  <label>Product:</label>
-  <select name="product">
-    <option value="Javan Power - 3 Month Pack">Javan Power - ₹1499 (3 Month Pack)</option>
-  </select>
+      <label for="payment">Payment Method</label>
+      <select name="Payment Method">
+        <option value="Cash on Delivery">Cash on Delivery</option>
+      </select>
 
-  <label>Payment Method:</label>
-  <select name="payment">
-    <option value="Cash on Delivery">Cash on Delivery</option>
-    <option value="Online">Online</option>
-  </select>
+      <button type="submit">Book Order</button>
+    </form>
+  </div>
 
-  <button type="submit">Order Now</button>
-</form>
+  <div class="thank-you" id="thankYou">
+    <h1>Thank You!</h1>
+    <p>Your order has been placed successfully. We'll contact you soon.</p>
+  </div>
+
+  <script>
+    const form = document.getElementById('orderForm');
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+
+      fetch("https://formsubmit.co/ajax/arjundiwaker0@gmail.com", {
+        method: "POST",
+        body: formData
+      }).then(response => response.json())
+        .then(data => {
+          document.getElementById('form-container').style.display = "none";
+          document.getElementById('thankYou').style.display = "block";
+        }).catch(error => {
+          alert("Something went wrong. Please try again.");
+        });
+    });
+  </script>
 
 </body>
 </html>
-'''
-
-thank_you_html = '''<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Order Confirmed</title>
-</head>
-<body>
-  <h2 style="text-align:center; color: green; margin-top: 50px;">Your order has been placed successfully!</h2>
-</body>
-</html>
-'''
-
-# Create files
-os.makedirs("/mnt/data/order_form_site", exist_ok=True)
-with open("/mnt/data/order_form_site/index.html", "w") as f:
-    f.write(order_form_html)
-
-with open("/mnt/data/order_form_site/thankyou.html", "w") as f:
-    f.write(thank_you_html)
-
-# Create a ZIP file
-zip_path = "/mnt/data/ayurvedic_order_form.zip"
-with ZipFile(zip_path, 'w') as zipf:
-    zipf.write("/mnt/data/order_form_site/index.html", arcname="index.html")
-    zipf.write("/mnt/data/order_form_site/thankyou.html", arcname="thankyou.html")
-
-zip_path
