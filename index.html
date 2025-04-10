@@ -1,96 +1,78 @@
+from zipfile import ZipFile
+import os
 
-<!DOCTYPE html>
+# Create the HTML files content
+order_form_html = '''<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jawan Power Booster</title>
+  <meta charset="UTF-8">
+  <title>Order Ayurvedic Medicine</title>
   <style>
-    body { font-family: sans-serif; background-color: #f3f3f3; margin: 0; padding: 0; }
-    header { background-color: #006400; color: white; padding: 20px; text-align: center; }
-    .product {
-      background-color: white;
-      margin: 40px auto;
-      padding: 20px;
-      border-radius: 8px;
-      width: 90%;
-      max-width: 600px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .product img { width: 100%; border-radius: 8px; }
-    .info { margin-top: 20px; }
-    .price { color: #b12704; font-size: 1.5em; margin: 10px 0; }
-    .btns button {
-      margin-top: 10px;
-      padding: 12px;
-      width: 100%;
-      font-size: 1em;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .cash { background-color: #444; color: white; }
-    #form-section {
-      display: none;
-      margin-top: 20px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.2);
-    }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
+    body { font-family: Arial; padding: 20px; background: #f4f4f4; }
+    form { background: white; padding: 20px; max-width: 500px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, textarea, select { width: 100%; padding: 10px; margin: 10px 0; }
+    button { background-color: green; color: white; padding: 10px; border: none; cursor: pointer; width: 100%; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Jawan Power Booster</h1>
-    <p>3 महीने का पैक - ₹1499</p>
-  </header>
 
-  <div class="product">
-    <img src="https://via.placeholder.com/600x400?text=Jawan+Power+Booster" alt="Jawan Power">
-    <div class="info">
-      <p>यह एक आयुर्वेदिक दवा है जो पुरुषों की शक्ति और सहनशक्ति को बढ़ाने में सहायक है।</p>
-      <p class="price">₹1499 / 3 Months Pack</p>
-    </div>
-    <div class="btns">
-      <button class="cash" onclick="showForm()">Cash on Delivery</button>
-    </div>
+<h2 style="text-align:center;">Place Your Order</h2>
 
-    <div id="form-section">
-      <h3>Delivery Details</h3>
-      <input type="text" id="name" placeholder="Name" required />
-      <input type="tel" id="phone" placeholder="Phone Number" required />
-      <textarea id="address" placeholder="Full Address" rows="4" required></textarea>
-      <button onclick="sendWhatsApp()">Submit Order</button>
-    </div>
-  </div>
+<form action="https://formsubmit.co/9720944308@gmail.com" method="POST">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_next" value="thankyou.html">
+  
+  <label>Customer Name:</label>
+  <input type="text" name="name" required>
 
-  <script>
-    function showForm() {
-      document.getElementById('form-section').style.display = 'block';
-    }
+  <label>Mobile Number:</label>
+  <input type="tel" name="mobile" required>
 
-    function sendWhatsApp() {
-      const name = document.getElementById("name").value;
-      const phone = document.getElementById("phone").value;
-      const address = document.getElementById("address").value;
+  <label>Address:</label>
+  <textarea name="address" required></textarea>
 
-      if (name && phone && address) {
-        const message = `New COD Order:%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}`;
-        const whatsappURL = `https://wa.me/919720944308?text=${message}`;
-        window.open(whatsappURL, '_blank');
-      } else {
-        alert("Please fill all fields.");
-      }
-    }
-  </script>
+  <label>Product:</label>
+  <select name="product">
+    <option value="Javan Power - 3 Month Pack">Javan Power - ₹1499 (3 Month Pack)</option>
+  </select>
+
+  <label>Payment Method:</label>
+  <select name="payment">
+    <option value="Cash on Delivery">Cash on Delivery</option>
+    <option value="Online">Online</option>
+  </select>
+
+  <button type="submit">Order Now</button>
+</form>
+
 </body>
 </html>
+'''
+
+thank_you_html = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Confirmed</title>
+</head>
+<body>
+  <h2 style="text-align:center; color: green; margin-top: 50px;">Your order has been placed successfully!</h2>
+</body>
+</html>
+'''
+
+# Create files
+os.makedirs("/mnt/data/order_form_site", exist_ok=True)
+with open("/mnt/data/order_form_site/index.html", "w") as f:
+    f.write(order_form_html)
+
+with open("/mnt/data/order_form_site/thankyou.html", "w") as f:
+    f.write(thank_you_html)
+
+# Create a ZIP file
+zip_path = "/mnt/data/ayurvedic_order_form.zip"
+with ZipFile(zip_path, 'w') as zipf:
+    zipf.write("/mnt/data/order_form_site/index.html", arcname="index.html")
+    zipf.write("/mnt/data/order_form_site/thankyou.html", arcname="thankyou.html")
+
+zip_path
